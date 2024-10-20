@@ -1,5 +1,4 @@
-import React, {useState} from 'react'
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 
 export default function WordCard(){
 
@@ -11,13 +10,17 @@ export default function WordCard(){
         setIsLoading(true);
 
         try {
-            const response = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/random');
+            const response = await fetch('https://random-word-api.herokuapp.com/word');
             const data = await response.json();
+            const randomWord = data[0]
 
-            setWord(data[0].word)
-            setDefinition(data[0].meanings[0].definitions[0].definition)
+            setWord(randomWord)
+            const defResponse = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${randomWord}`);
+            const defData = await defResponse.json();
+            const wordDefinition = defData[0].meanings[0].definitions[0].definition;
+            setDefinition(wordDefinition)
         } 
-        catch {
+        catch (error){
             console.error('Error fetching word:', error);
             setWord('Error');
             setDefinition('Could not fetch word. Try again.');
@@ -25,9 +28,21 @@ export default function WordCard(){
         setIsLoading(false); 
     }
 
-    return(
-        <div>
+    useEffect(() => {
+        fetchWord();
+    }, [])
 
+    return(
+        <div className="word-card">
+            {isLoading ? (<p>is Loading...</p>)  //If isLoading is true, "render is Loading..." else show word and def
+            :(
+                <>
+                <h1>{word}</h1>
+                <p>{definition}</p>
+                <button onClick={fetchWord}>Generate New Word</button>
+                </>
+             )
+            }
         </div>
     )
 }
