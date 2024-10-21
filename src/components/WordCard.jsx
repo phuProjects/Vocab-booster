@@ -4,26 +4,32 @@ export default function WordCard(){
 
     const [word, setWord] = useState('');
     const [definition, setDefinition] = useState('');
+    const [example, setExample] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchWord = async () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('https://random-word-api.herokuapp.com/word');
+            const response = await fetch('https://random-word-api.vercel.app/api?words=1');
             const data = await response.json();
             const randomWord = data[0]
+            setWord(randomWord);
 
-            setWord(randomWord)
             const defResponse = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${randomWord}`);
             const defData = await defResponse.json();
             const wordDefinition = defData[0].meanings[0].definitions[0].definition;
-            setDefinition(wordDefinition)
+            setDefinition(wordDefinition);
+            
+            const wordExample = defData[0].meanings[0].definitions[0].example || 'No example available.';
+            setExample(wordExample)
         } 
         catch (error){
             console.error('Error fetching word:', error);
-            setWord('Error');
-            setDefinition('Could not fetch word. Try again.');
+            setIsLoading(true)
+            setWord('');
+            setDefinition('');
+            fetchWord();
         }
         setIsLoading(false); 
     }
@@ -38,7 +44,8 @@ export default function WordCard(){
             :(
                 <>
                 <h1>{word}</h1>
-                <p>{definition}</p>
+                <p>Definition: {definition}</p>
+                <p>Example: {example}</p>
                 <button onClick={fetchWord}>Generate New Word</button>
                 </>
              )
