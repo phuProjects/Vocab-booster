@@ -5,6 +5,8 @@ export default function WordCard(){
     const [word, setWord] = useState('');
     const [definition, setDefinition] = useState('');
     const [example, setExample] = useState('');
+    const [partOfSpeech, setPartOfSpeech] = useState('');
+    const [audio, setAudio] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchWord = async () => {
@@ -18,21 +20,37 @@ export default function WordCard(){
 
             const defResponse = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${randomWord}`);
             const defData = await defResponse.json();
-            const wordDefinition = defData[0].meanings[0].definitions[0].definition;
+
+            const meaning = defData[0].meanings[0];
+            const wordDefinition = meaning.definitions[0].definition;
+            const wordExample = meaning.definitions[0].example || 'No example available.';
+            const wordPartOfSpeech = meaning.partOfSpeech;
+            const pronunciationAudio = defData[0].phonetics.find(p => p.audio)?.audio || null;
+
             setDefinition(wordDefinition);
-            
-            const wordExample = defData[0].meanings[0].definitions[0].example || 'No example available.';
-            setExample(wordExample)
+            setExample(wordExample);
+            setPartOfSpeech(wordPartOfSpeech);
+            setAudio(pronunciationAudio);
+
         } 
         catch (error){
             console.error('Error fetching word:', error);
             setIsLoading(true)
             setWord('');
             setDefinition('');
+            setPartOfSpeech('');
+            setAudio(null)
             fetchWord();
         }
         setIsLoading(false); 
     }
+
+    const playAudio = () => {
+        if (audio) {
+            const audioElement = new Audio(audio);
+            audioElement.play();
+        }
+    };
 
     useEffect(() => {
         fetchWord();
@@ -44,10 +62,13 @@ export default function WordCard(){
             :(
                 <>
                 <h1>{word}</h1>
-                <p>Definition: {definition}</p>
-                <p>Example: {example}</p>
+                <p><strong>Part of Speech: </strong>{partOfSpeech}</p>
+                <p><strong>Definition: </strong>{definition}</p>
+                <p><strong>Example: </strong>{example}</p>
                 <button onClick={fetchWord}>Generate New Word</button>
+                <button onClick={playAudio}>{audio ? 'Play Pronunciation' : 'No Audio Available'}</button>
                 </>
+                
              )
             }
         </div>
