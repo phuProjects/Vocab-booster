@@ -38,6 +38,20 @@
     background-color: #45a049;
 }
 
+.word-card .remove-button {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.word-card .remove-button:hover {
+    background-color: #e60000;
+}
+
 .word-card p.is-loading {
     font-style: italic;
     color: #999;

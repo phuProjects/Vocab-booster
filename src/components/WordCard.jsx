@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import Favorites from './Favorites.jsx';
 export default function WordCard() {
     const [word, setWord] = useState('');
     const [definition, setDefinition] = useState('');
@@ -97,7 +97,7 @@ export default function WordCard() {
                         {favorites.map((fav, index) => (
                             <li key={index}>
                                 <strong>{fav.word}</strong> ({fav.partOfSpeech}): {fav.definition}
-                                <button onClick={() => deleteFromFavorites(fav.word)}>Remove</button>
+                                <button className="remove-button" onClick={() => deleteFromFavorites(fav.word)}>Remove</button>
                             </li>
                         ))}
                     </ul>
