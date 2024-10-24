@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Header() {
+export default function Header() {
     return (
         <header className="app-header">
-            <h1>Word Explorer</h1>
+            <h1>Vocab Knowledge</h1>
             <nav>
                 <ul>
                     <li><a href="#favorites">Favorites</a></li>
@@ -13,5 +13,3 @@ function Header() {
         </header>
     );
 }
-
-export default Header;
