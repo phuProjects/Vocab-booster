@@ -83,3 +83,63 @@
     font-style: italic;
     color: #999;
 }
+
+/* Add these styles to your CSS file */
+.history-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 20px 0;
+    padding: 16px;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.clear-button {
+    padding: 8px 16px;
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.history-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.history-item {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.history-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.timestamp {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.empty-message {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+.part-of-speech span,
+.definition span,
+.example span {
+    font-weight: bold;
+}
