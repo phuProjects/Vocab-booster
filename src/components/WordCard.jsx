@@ -46,13 +46,19 @@ export default function WordCard() {
     const saveToFavorites = () => {
         const newFavorite = { word, definition, partOfSpeech, example };
 
-        // Check if the word is already in favorites
         if (favorites.some(fav => fav.word === word)) {
             alert('This word is already in your favorites!');
             return;
         }
 
         const updatedFavorites = [...favorites, newFavorite];
+        setFavorites(updatedFavorites);
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    };
+
+    // Delete a word from favorites
+    const deleteFromFavorites = (wordToDelete) => {
+        const updatedFavorites = favorites.filter(fav => fav.word !== wordToDelete);
         setFavorites(updatedFavorites);
         localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     };
@@ -85,11 +91,13 @@ export default function WordCard() {
                     <button onClick={fetchWord}>Generate New Word</button>
                     <button onClick={playAudio}>{audio ? 'Play Pronunciation' : 'No Audio Available'}</button>
                     <button onClick={saveToFavorites}>Save to Favorites</button>
+                    
                     <h2>Favorites</h2>
                     <ul>
                         {favorites.map((fav, index) => (
                             <li key={index}>
-                                <strong>{fav.word}</strong>: {fav.definition} ({fav.partOfSpeech})
+                                <strong>{fav.word}</strong> ({fav.partOfSpeech}): {fav.definition}
+                                <button onClick={() => deleteFromFavorites(fav.word)}>Remove</button>
                             </li>
                         ))}
                     </ul>
