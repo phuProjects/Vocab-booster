@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
     return (
@@ -6,8 +6,9 @@ export default function Header() {
             <h1>Vocabulary Booster</h1>
             <nav>
                 <ul>
-                    <li><a href="#favorites">Favorites</a></li>
-                    <li><a href="#history">History</a></li>
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/favorite">Favorite</Link></li>
+                    <li><Link to="/history">History</Link></li>
                 </ul>
             </nav>
         </header>

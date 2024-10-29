@@ -1,11 +1,9 @@
+import React from 'react';
 import Favorites from '../components/Favorites.jsx'
-import {useState} from 'react'
-export default function Favorites(){
-
-    const [favoriteWord, setFavoriteWord] = useState([]);
-    
-
-    return(
-
-    )
+export default function FavoritePage() {
+    return (
+        <> 
+            <Favorites/>
+        </>
+    );
 }
